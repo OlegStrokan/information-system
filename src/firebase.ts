@@ -2,13 +2,13 @@ import { initializeApp }  from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyDE3NVKYD0DvQ_HlnUnTRHzyxxzaQBnjnI",
-  authDomain: "information-system-vspj.firebaseapp.com",
-  projectId: "information-system-vspj",
-  storageBucket: "information-system-vspj.appspot.com",
-  messagingSenderId: "184939012723",
-  appId: "1:184939012723:web:3b2044d526b9e7b63dc006",
-  measurementId: "G-2WW65QGQXK"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
 export const app = initializeApp(firebaseConfig)
