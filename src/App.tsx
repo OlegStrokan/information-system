@@ -1,13 +1,37 @@
 import React from 'react';
-import db from './firebase'
-import { collection, onSnapshot } from 'firebase/firestore'
+import { db } from './firebase'
+import { addDoc, collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore'
+
 function App() {
   const [users, setUsers] = React.useState<any>();
 
+  const usersCollection = collection(db, 'users');
+
+  const getUsers = async () => {
+    const data = await getDocs(usersCollection)
+    setUsers(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+  }
+
+  const createUser = async ( fullName: string, role: string) => {
+    await addDoc(usersCollection, { fullName: fullName, role: role})
+  }
+
+  const updateUser = async (id: string, fullName: string, role: string) => {
+    const userDoc = doc(db, 'users', id);
+    const newField = {fullName: fullName, role: role}
+    await updateDoc(userDoc, newField )
+  }
+
+  const deleteUser = async (id: string) => {
+    const userDoc = doc(db,'users', id);
+    await deleteDoc(userDoc)
+  }
+
   React.useEffect(() => {
-      onSnapshot(collection(db, 'users'),(snapshot) => {
-        setUsers(snapshot.docs.map((doc) => doc.data()))
-      })
+      getUsers()
+    // updateUser('12lRW2n0ZIKpajcAu4P6', 'Oleh Strokan', 'admin')
+    // createUser('Regina Butenko', 'student')
+    // deleteUser( 'NPgt4BLaPwuIlfAJlCuq')
   },[])
 
   if (!users) {
@@ -15,7 +39,7 @@ function App() {
   }
   return (
    <div>
-     {users.map((user: any) => <div key={user.id}>{user.title}</div>)}
+     {users.map((user: any) => <div key={user.id}>{user.id}</div>)}
    </div>
   );
 }
