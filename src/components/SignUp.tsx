@@ -8,7 +8,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  SelectChangeEvent,
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -22,10 +21,9 @@ import { validationSchema } from '../utils/validators/signUp';
 
 interface SignUpInterface {
   onModeChange: () => void;
-  createUser: (...args: any) => void;
 }
 
-export const SignUp:React.FC<SignUpInterface> = ({ onModeChange, createUser }) => {
+export const SignUp:React.FC<SignUpInterface> = ({ onModeChange }) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [stateErrors, setError] = React.useState<any>();
 
@@ -34,7 +32,6 @@ export const SignUp:React.FC<SignUpInterface> = ({ onModeChange, createUser }) =
     setIsLoading(true)
     try {
       await signUp(event.email, event.password);
-      createUser(event.email, event.fullName, false, event.role, event.userName)
     } catch (e) {
       setError(e)
     }
@@ -43,7 +40,6 @@ export const SignUp:React.FC<SignUpInterface> = ({ onModeChange, createUser }) =
 
 
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     register, control, handleSubmit, formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -121,50 +117,52 @@ export const SignUp:React.FC<SignUpInterface> = ({ onModeChange, createUser }) =
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <div className={styles.acceptTerms}>
-                  <FormControlLabel
-                    control={(
-                      <Controller
-                        control={control}
-                        defaultValue="false"
-                        name="acceptTerms"
-                      // @ts-ignore
-                        inputRef={register()}
-                        render={({ field: { onChange } }) => (
-                          <Checkbox
-                            color="primary"
-                            onChange={((e) => onChange(e.target.checked))}
-                            required
-                          />
-                        )}
+            <Grid item xs={12} className={styles.acceptTerms}>
+              <FormControlLabel
+                control={(
+                  <Controller
+                    control={control}
+                    defaultValue="false"
+                    name="acceptTerms"
+                    // @ts-ignore
+                    inputRef={register()}
+                    render={({ field: { onChange } }) => (
+                      <Checkbox
+                        className={styles.checkboxTerms}
+                        color="primary"
+                        sx={{ ml: 2 }}
+                        onChange={((e) => onChange(e.target.checked))}
+                        required
                       />
-                  )}
-                    label=""
+                    )}
                   />
+                )}
+                label=""
+              />
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
                   <Typography color={errors.acceptTerms ? 'error' : 'inherit'}>
                     Terms and conditions
                   </Typography>
-                </div>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                  Lorem Ipsum has been the standard dummy text ever since the 1500s, when
-                  an unknown printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but also the leap into
-                  electronic typesetting, remaining essentially unchanged. It was popularised in
-                  the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                  and more recently with desktop publishing software like Aldus
-                  PageMaker including versions of Lorem Ipsum.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the standard dummy text ever since the 1500s, when
+                    an unknown printer took a galley of type and scrambled it to make a type
+                    specimen book. It has survived not only five centuries, but also the leap into
+                    electronic typesetting, remaining essentially unchanged. It was popularised in
+                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                    and more recently with desktop publishing software like Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
             <Typography sx={{ mt: 1 }} variant="inherit" color="textSecondary">
               {errors.acceptTerms
                 ? `(${errors.acceptTerms.message})`

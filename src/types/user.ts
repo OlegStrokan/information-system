@@ -1,8 +1,9 @@
 
-export type User = {
+export type UserType = {
   id: string;
   fullName: string;
-  isSubscriber: boolean;
-  role: 'admin' | 'student';
   userName: string;
+  email: string;
+  password: string;
+  role: 'admin' | 'user' | 'subscriber';
 }

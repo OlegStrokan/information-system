@@ -20,7 +20,7 @@ export const SignIn: React.FC<SignInInterface> = ({ onModeChange }) => {
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [stateErrors, setError] = React.useState<any>();
-  // @ts-ignore
+
   const currentUser: {email: string, password: string} = useAuth()
   const {
     register, control, handleSubmit, formState: { errors },

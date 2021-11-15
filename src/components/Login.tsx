@@ -5,10 +5,10 @@ import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 
 interface LoginInterface {
-  createUser: (...args: any) => void;
+
 }
 
-export const Login:React.FC<LoginInterface> = ({ createUser }) => {
+export const Login:React.FC<LoginInterface> = ({  }) => {
   const [register, setRegister] = React.useState<boolean>(true);
 
   const onModeChange = () => {
@@ -25,7 +25,7 @@ export const Login:React.FC<LoginInterface> = ({ createUser }) => {
 
   return (
     <Card className={styles.root}>
-      {!register ? <SignUp onModeChange={onModeChange} createUser={createUser} /> : <SignIn onModeChange={onModeChange} />}
+      {!register ? <SignUp onModeChange={onModeChange} /> : <SignIn onModeChange={onModeChange} />}
     </Card>
   );
 }
